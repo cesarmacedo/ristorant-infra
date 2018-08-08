@@ -1,0 +1,51 @@
+version: '3.2'
+services:
+
+  frontend:
+    image: registry.sysmap.com.br/nginx:alpine
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - default
+      - dockerinfra_gateway
+
+  ssg-ms-auth:
+    image: registry.sysmap.com.br/sistemas/ssg-ms-auth:prd
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ../data/db-ssg-ms-auth:/data/db:rw
+
+  ssg-ms-businessday:
+    image: registry.sysmap.com.br/sistemas/ssg-ms-businessday:prd
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ../data/db-ssg-ms-businessday:/data/db:rw
+
+  ssg-ms-hr-vacations:
+    image: registry.sysmap.com.br/sistemas/ssg-ms-hr-vacations:prd
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ../data/db-ssg-ms-hr-vacations:/data/db:rw
+
+  ssg-ms-users:
+    image: registry.sysmap.com.br/sistemas/ssg-ms-users:prd
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ../data/db-ssg-ms-users:/data/db:rw
+
+  ssg-ms-integration-people:
+    image: registry.sysmap.com.br/sistemas/ssg-ms-integration-people:prd
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ../data/db-ssg-ms-integration-people:/data/db:rw 
+
+networks:
+  dockerinfra_gateway:
+    external: true
